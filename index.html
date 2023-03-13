@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="index.css" type="text/css">
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  <title>Book Library</title>
+</head>
+
+<body>
+  <header class="header bg-blue-500 shadow-lg shadow-blue-500/50 py-3 text-zinc-200">
+    <div class="header-content container">
+      <span class="title text-2xl flex items-center">
+        <img src="images/book.png" alt="logo" class="inline-block mb-2">
+        <h1 class="inline-block">Library</h1>
+      </span>
+      <button class="sign-in py-2 px-7 rounded bg-slate-900" id="btn-user">
+        Log in
+      </button>
+    </div>
+  </header>
+  <main class="book-section container">
+    <div class="btn-add-book flex justify-center">
+      <button class="add-book flex items-center justify-center text-2xl text-blue-600" id="add-book">
+        <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#5870e6">
+          <path d="M24 9h-9v-9h-6v9h-9v6h9v9h6v-9h9z" />
+        </svg>
+        <span class="btn-text">Add book</span>
+      </button>
+    </div>
+    <div class="book-card-list">
+      <!-- <div class="book-card card rounded shadow-lg"></div> -->
+    </div>
+  </main>
+  <!-- modal -->
+  <div class="modal-overlay add-book-info">
+    <div class="form-container">
+      <form id="book-info" class="card">
+        <h3 class="title text-xl font-semibold">Add new book</h3>
+        <span class="form-group">
+          <label for="title">
+            <span class="block text-sm font-medium text-slate-700">Title:</span>
+          </label>
+          <input type="text" name="book-title" id="title" autocomplete="off">
+        </span>
+        <span class="form-group">
+          <label for="author"><span class="block text-sm font-medium text-slate-700">Author:</span></label>
+          <input type="text" name="book-author" id="author" autocomplete="off">
+        </span>
+        <span class="form-group">
+          <label for="pages">
+            <span class="block text-sm font-medium text-slate-700">Pages</span>
+          </label>
+          <input type="number" name="book-pages" id="pages" autocomplete="off">
+        </span>
+        <span class="form-group is-read">
+          <label for="red">book read</label>
+          <input type="checkbox" name="check" id="isRead">
+        </span>
+        <button type="submit" class="focus:outline-none shadow-lg shadow-blue-500/50">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
