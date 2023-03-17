@@ -130,16 +130,80 @@ bookList.addEventListener('click', function (e) {
 
 
 
+function addBookToStorage(book) {
+  const existBook = myBookLibrary.find((b) => {
+    b.title === book.title && b.author === book.author;
+  });
+
+  if (existBook) {
+    alert('book exist');
+  } else {
+    myBookLibrary.push(book);
+    localStorage.setItem('myBookLibrary', JSON.stringify(myBookLibrary));
+    // newBook.renderBook()
+  }
+}
+
+function removeBookToStorage(book) {
+  if (myBookLibrary.includes(book)) {
+    myBookLibrary = myBookLibrary.filter((b) => b !== book);
+    localStorage.setItem('myBookLibrary', JSON.stringify(myBookLibrary));
+  }
+}
 
 
 
-//do something
+
 /*
-const bookTitle = e.target
-      .closest('.book-card-list')
-      .querySelector('.title').textContent;
-    const book = myBookLibrary.find((book) => book.title === bookTitle);
-    const newBook = new Book(this.title, this.author, this.pages, this.isRead);
-    newBook.deleteBook(bookTitle);
-    
-*/  
+
+ const bookElement = document.createElement('div');
+
+  const randCover = Math.floor(Math.random() * 1000) + 1;
+  const randLink = 'https://picsum.photos/300/300';
+  const url = `http://covers.openlibrary.org/b/id/${randCover}-M.jpg?source=${randLink}`;
+
+  bookElement.classList.add(
+    'book-card',
+    'card',
+    'rounded',
+    'shadow-lg',
+    'scale-up'
+  );
+
+
+
+  bookElement.innerHTML = `
+  <div class="card-content pb-3">
+ 
+   <div class="read-notice">${this.isRead}</div>
+   <img src=${url} alt="book-cover" class="card-img" />
+  <div class="book-card-text text-center my-3">
+    <div class="title text-white bg-indigo-500 my-3 py-2"><b>Title: </b>${
+      this.title
+    }</div>
+    <p class="author bg-indigo-500 text-white py-2 font-light">
+     <b>Author:</b> ${this.author}
+    </p>
+    <p class="page bg-indigo-500 text-white py-2 font-light my-2">
+     <b>Pages:</b> ${this.pages}
+    </p>
+  </div>
+  <div class="card-btns flex justify-between px-2 mt-3">
+    <button type="button" class="del-book bg-indigo-500 text-white rounded px-2" id="delete-book">
+      <img class="btn-icon btn-delete" src="images/trash_can.png" alt="" >
+    </button>
+    <button class="checked-book bg-indigo-500 text-white rounded px-5">
+    ${
+      this.isRead
+        ? '<img class="btn-icon" src="images/check.png" alt="" />'
+        : '<img class="btn-icon" src="images/cancel.png" alt="">'
+    }
+    </button>
+  </div>
+</div>
+`;
+  bookList.append(bookElement);
+
+
+
+ */

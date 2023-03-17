@@ -1,14 +1,12 @@
 const showBookInfo = document.querySelector('#add-book');
 const addBookInfo = document.querySelector('.add-book-info');
 const formContainer = document.querySelector('.form-container');
-const form = document.querySelector('.form-container');
+const form = document.querySelector('#book-info');
 const overlay = document.querySelector('.modal-overlay');
 const bookList = document.querySelector('.book-card-list');
 
-//loop through the array and append to the DOM
-const myBookLibrary = [];
-
-let bookLocalStorage = JSON.parse(localStorage.getItem('myBookLibrary')) || [];
+let myBookLibrary = [];
+let isReadMessage;
 
 function Book(title, author, pages, isRead) {
   this.title = title;
@@ -17,7 +15,7 @@ function Book(title, author, pages, isRead) {
   this.isRead = isRead;
 }
 
-function getBookInfos(title, author, pages, isRead) {
+function getBookInfos() {
   const bookTitle = document.querySelector('#title').value;
   const bookAuthor = document.querySelector('#author').value;
   const bookPages = document.querySelector('#pages').value;
@@ -32,17 +30,38 @@ function getBookInfos(title, author, pages, isRead) {
 }
 
 Book.prototype.addBook = function () {
-  addBookToStorage(this);
   myBookLibrary.push(this);
 };
 
-Book.prototype.deleteBook = function () {
-  removeBookToStorage(this);
-  myBookLibrary = myBookLibrary.filter((book) => book !== this);
+Book.prototype.deleteBook = function (title, author) {
+  let existBooks = localStorage.getItem('myBookLibrary');
+  let bookArray = existBooks ? JSON.parse(existBooks) : [];
+
+  let bookIndex = bookArray.findIndex(
+    (book) => book.title === title && book.author === author
+  );
+  if (bookIndex !== -1) {
+    bookArray.splice(bookIndex, 1);
+    localStorage.setItem('myBookLibrary', JSON.stringify(bookArray));
+    console.log('Book removed from local storage');
+    bookList.innerHTML = '';
+
+    myBookLibrary = bookArray.map(
+      (book) => new Book(book.title, book.author, book.pages, book.isRead)
+    );
+    myBookLibrary.forEach((book) => book.RenderBook());
+  } else {
+    console.log('Book not found in local storage');
+  }
 };
 
 Book.prototype.renderBook = function () {
   const bookElement = document.createElement('div');
+
+  const randCover = Math.floor(Math.random() * 1000) + 1;
+  const randLink = 'https://picsum.photos/300/300';
+  const url = `http://covers.openlibrary.org/b/id/${randCover}-M.jpg?source=${randLink}`;
+
   bookElement.classList.add(
     'book-card',
     'card',
@@ -51,35 +70,103 @@ Book.prototype.renderBook = function () {
     'scale-up'
   );
 
-  bookElement.innerHTML = `
-  <div class="card-content pb-3">
-   <div class="read-notice"></div>
-   <img src="https://source.unsplash.com/featured/200x300/?book" alt="book-img" class="card-img" />
-  <div class="book-card-text text-center my-3">
-    <div class="title text-white bg-indigo-500 my-3 py-2"><b>Title: </b>${
-      this.title
-    }</div>
-    <p class="author bg-indigo-500 text-white py-2 font-light">
-     <b>Author:</b> ${this.author}
-    </p>
-    <p class="page bg-indigo-500 text-white py-2 font-light my-2">
-     <b>Pages:</b> ${this.pages}
-    </p>
-  </div>
-  <div class="card-btns flex justify-between px-2 mt-3">
-    <button type="button" class="del-book bg-indigo-500 text-white rounded px-2" id="delete-book">
-      <img class="btn-icon btn-delete" src="images/trash_can.png" alt="" >
-    </button>
-    <button class="checked-book bg-indigo-500 text-white rounded px-5">
-    ${
-      this.isRead
-        ? '<img class="btn-icon" src="images/check.png" alt="" />'
-        : '<img class="btn-icon" src="images/cancel.png" alt="">'
-    }
-    </button>
-  </div>
-</div>
-`;
+  const cardContent = document.createElement('div');
+  cardContent.classList.add('card-content', 'pb-3');
+  bookElement.appendChild(cardContent);
+
+  const readNotice = document.createElement('div');
+  readNotice.classList.add('read-notice');
+  cardContent.appendChild(readNotice);
+
+  const bookImg = document.createElement('img');
+  bookImg.src = url;
+  bookImg.alt = 'book-cover';
+  bookImg.classList.add('card-img');
+  cardContent.appendChild(bookImg);
+
+  const bookCardText = document.createElement('div');
+  bookCardText.classList.add('book-card-text', 'text-center', 'my-3');
+  cardContent.appendChild(bookCardText);
+
+  const title = document.createElement('div');
+  title.classList.add('title', 'text-white', 'bg-indigo-500', 'my-3', 'py-2');
+  title.innerHTML = `<b>Title: </b>${this.title}`;
+  bookCardText.appendChild(title);
+
+  const author = document.createElement('p');
+  author.classList.add(
+    'author',
+    'bg-indigo-500',
+    'text-white',
+    'py-2',
+    'font-light'
+  );
+  author.innerHTML = `<b>Author:</b> ${this.author}`;
+  bookCardText.appendChild(author);
+
+  const page = document.createElement('p');
+  page.classList.add(
+    'page',
+    'bg-indigo-500',
+    'text-white',
+    'py-2',
+    'font-light',
+    'my-2'
+  );
+  page.innerHTML = `<b>Pages:</b> ${this.pages}`;
+  bookCardText.appendChild(page);
+
+  const cardBtns = document.createElement('div');
+  cardBtns.classList.add(
+    'card-btns',
+    'flex',
+    'justify-between',
+    'px-2',
+    'mt-3'
+  );
+  cardContent.appendChild(cardBtns);
+
+  const delBtn = document.createElement('button');
+  delBtn.type = 'button';
+  delBtn.classList.add(
+    'del-book',
+    'bg-indigo-500',
+    'text-white',
+    'rounded',
+    'px-2'
+  );
+  delBtn.id = 'delete-book';
+  cardBtns.appendChild(delBtn);
+
+  const delImg = document.createElement('img');
+  delImg.classList.add('btn-icon', 'btn-delete');
+  delImg.src = 'images/trash_can.png';
+  delBtn.appendChild(delImg);
+
+  const checkedBtn = document.createElement('button');
+  checkedBtn.classList.add(
+    'checked-book',
+    'bg-indigo-500',
+    'text-white',
+    'rounded',
+    'px-5'
+  );
+  cardBtns.appendChild(checkedBtn);
+
+  const checkedImg = document.createElement('img');
+  checkedImg.classList.add('btn-icon');
+  checkedBtn.appendChild(checkedImg);
+
+  if (this.isRead) {
+    checkedImg.src = 'images/check.png';
+    checkedImg.alt = '';
+    readNotice.textContent = 'Read';
+  } else {
+    checkedImg.src = 'images/cancel.png';
+    checkedImg.alt = '';
+    readNotice.textContent = 'Not Read';
+  }
+
   bookList.append(bookElement);
 };
 
@@ -108,6 +195,7 @@ form.addEventListener('submit', (e) => {
 
   overlay.classList.toggle('show');
   newBook.renderBook();
+  localStorage.setItem('myBookLibrary', JSON.stringify(myBookLibrary));
 });
 
 //eventlistener
@@ -127,21 +215,20 @@ bookList.addEventListener('click', (e) => {
   const bookCard = e.target.closest('.book-card');
   if (e.target.closest('.del-book')) {
     const bookIndex = Array.from(bookList.children).indexOf(bookCard);
-    const confirmText = 'a';
     if (confirm('Delete this book?😞') === true) {
       bookCard.remove();
-      myBookLibrary[bookIndex].deleteBook();
+      myBookLibrary.splice(bookIndex, 1);
+      // update local storage with new myBookLibrary array
+      localStorage.setItem('myBookLibrary', JSON.stringify(myBookLibrary));
     }
     bookCard.classList.add('animate__animated', 'animate__zoomOut');
   } else if (e.target.closest('.checked-book')) {
     const bookCard = e.target.closest('.book-card');
     const checkedBtn = e.target.closest('.checked-book');
     const checkImg = checkedBtn.querySelector('.btn-icon');
-    // Toggle isRead property
     const bookIndex = Array.from(bookList.children).indexOf(bookCard);
     myBookLibrary[bookIndex].isRead = !myBookLibrary[bookIndex].isRead;
 
-    let isReadMessage;
     // Toggle checked button icon
     const readAlert = bookCard.querySelector('.read-notice');
     if (myBookLibrary[bookIndex].isRead) {
@@ -156,24 +243,23 @@ bookList.addEventListener('click', (e) => {
   }
 });
 
-//
-function addBookToStorage(book) {
-  if (!myBookLibrary.includes(book)) {
-    myBookLibrary.push(book);
-    localStorage.setItem('myBookLibrary', JSON.stringify(myBookLibrary));
-  }
+if (typeof localStorage !== 'undefined') {
+  window.addEventListener('load', () => {
+    let storedBooks = JSON.parse(localStorage.getItem('myBookLibrary'));
+    if (storedBooks) {
+      myBookLibrary = storedBooks;
+      // Render the books to the DOM
+      myBookLibrary.forEach((book) => {
+        const newBook = new Book(
+          book.title,
+          book.author,
+          book.pages,
+          book.isRead
+        );
+        newBook.renderBook();
+      });
+    }
+  });
 }
 
-function removeBookToStorage(book) {
-  if (myBookLibrary.includes(book)) {
-    myBookLibrary = myBookLibrary.filter((b) => b !== book);
-    localStorage.setItem('myBookLibrary', JSON.stringify(myBookLibrary));
-  }
-}
-
-/*
-TODO
-1- Duplicate book in the local storage
-2- In the DOM isRead must change if button toggle check 
-3- onload windows- books in the local storage must be shown 
-*/
+function changeIsRead(message) {}
