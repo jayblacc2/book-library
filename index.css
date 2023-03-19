@@ -21,134 +21,28 @@ body {
   font-weight: 400;
   height: 100vh;
 }
+/* header */
+.header {
+  position: sticky;
+  width: 100%;
+  top: 0;
+  z-index: 22;
+}
 
 .header-content {
   display: flex;
   justify-content: space-between;
 }
 
-.header-content button {
+#btn-user {
   transition: var(--transition);
 }
 
-.form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+#btn-user:hover {
+  transform: scale(1.02);
 }
 
-.form-group {
-  align-self: center;
-}
-
-.card {
-  background-color: rgb(248 250 252);
-  width: 350px;
-  min-height: 200px;
-  border-radius: 5px;
-}
-
-.checked-book {
-  position: relative;
-}
-
-.book-card-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.checked-book .btn-icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.book-card {
-  width: 250px;
-  min-height: 270px;
-  margin: 2rem;
-  text-align: center;
-  transition: all 0.3s ease-out;
-}
-
-.card-content {
-  position: relative;
-}
-
-.book-card .book-card-animation {
-  animation: flip-out 0.45s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-}
-
-.book-card:hover {
-  transform: scale(1.05);
-}
-
-.card-btns .btn-icon {
-  width: 35px;
-  height: auto;
-}
-.card-btns .del-book {
-  display: flex;
-  align-items: center;
-  transition: var(--transition);
-}
-
-.del-book:hover,
-.checked-book:hover {
-  background-color: #592dea;
-}
-
-#book-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem 0;
-}
-
-.form-group label {
-  color: #6b6b6b;
-  font-size: 0.7rem;
-  display: inline-block;
-  letter-spacing: 2px;
-  font: inherit;
-  margin: 0.5rem 0;
-}
-.form-group input {
-  border-radius: 4px;
-  color: #6b6b6b;
-  display: block;
-  font: inherit;
-  font-size: 1.1rem;
-  box-shadow: 1px 1px 5px 0px rgba(42, 42, 42, 0.5);
-  border-style: inset;
-  border-color: #e3e3e3;
-  border-width: 0px;
-  padding: 6px;
-}
-
-.form-group input:focus {
-  outline: none;
-}
-
-#book-info button {
-  padding: 7px 30px;
-  background-color: rgb(29 78 216);
-  margin-top: 1rem;
-  color: #eee;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 5px;
-  animation: shadow-drop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  transition: all 0.3s ease-in-out;
-}
-
-#book-info button:hover {
-  background-color: #5870e6;
-  color: #ffffff;
-}
-
+/* main */
 .btn-add-book {
   width: 160px;
   margin: 1.5rem auto;
@@ -171,6 +65,130 @@ body {
   opacity: 0;
 }
 
+.book-card-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.book-card {
+  width: 250px;
+  min-height: 270px;
+  margin: 2rem;
+  text-align: center;
+  transition: all 0.3s ease-out;
+}
+
+.checked-book .btn-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card-content {
+  position: relative;
+}
+
+.card-btns .btn-icon {
+  width: 35px;
+  height: auto;
+}
+
+.card-btns .del-book {
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.checked-book {
+  position: relative;
+  transition: var(--transition);
+}
+
+.del-book:hover,
+.checked-book:hover {
+  background-color: #592dea;
+  transform: scale(1.07);
+}
+
+#book-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+}
+
+.card {
+  background-color: rgb(248 250 252);
+  width: 350px;
+  min-height: 200px;
+  border-radius: 5px;
+}
+
+.card-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.read-notice {
+  background: rgb(0, 0, 0, 0.5);
+  color: #ffffff;
+  width: 40%;
+  height: 1.75rem;
+  position: absolute;
+  top: 1rem;
+  left: 8rem;
+  border-radius: 2px;
+}
+
+.form-group label {
+  color: #6b6b6b;
+  font-size: 0.7rem;
+  display: inline-block;
+  letter-spacing: 2px;
+  font: inherit;
+  margin: 0.5rem 0;
+}
+
+.form-group input {
+  border-radius: 4px;
+  color: #6b6b6b;
+  display: block;
+  font: inherit;
+  font-size: 1.1rem;
+  box-shadow: 1px 1px 5px 0px rgba(42, 42, 42, 0.5);
+  border-style: inset;
+  border-color: #e3e3e3;
+  border-width: 0px;
+  padding: 6px;
+}
+
+.form-group input:focus {
+  outline: none;
+}
+
+.form-group {
+  align-self: center;
+}
+
+#book-info button {
+  padding: 7px 30px;
+  background-color: rgb(29 78 216);
+  margin-top: 1rem;
+  color: #eee;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  animation: shadow-drop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  transition: all 0.3s ease-in-out;
+}
+
+#book-info button:hover {
+  background-color: #5870e6;
+  color: #ffffff;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -182,12 +200,16 @@ body {
   transition: var(--transition);
 }
 
-.show {
-  display: block;
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  transition: var(--transition);
 }
 
-.form-container {
-  transition: var(--transition);
+.show {
+  display: block;
 }
 
 #book-info .form-group:nth-of-type(4) {
@@ -217,27 +239,27 @@ input[type='checkbox'] {
   .header-content h1 {
     display: none;
   }
+
+  .btn-add-book {
+    position: fixed;
+    bottom: 1rem;
+    right: -30px;
+  }
+  .add-book svg {
+    transition: var(--transition);
+  }
+
+  .add-book svg:hover {
+    fill: #4c3ee1;
+    transform: scale(1.5);
+  }
+
+  .btn-text {
+    display: none;
+  }
   .book-card-list {
     justify-content: center;
   }
-}
-
-.card-img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-
-.read-notice {
-  background: rgb(0, 0, 0, 0.5);
-  color: #ffffff;
-  width: 40%;
-  height: 1.75rem;
-
-  position: absolute;
-  top: 1rem;
-  left: 8rem;
-  border-radius: 2px;
 }
 
 /* Animation */
@@ -269,18 +291,5 @@ input[type='checkbox'] {
     -webkit-transform: scale(0);
     transform: scale(0);
     opacity: 1;
-  }
-}
-
-@keyframes flip-out {
-  0% {
-    -webkit-transform: rotateX(0);
-    transform: rotateX(0);
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: rotateX(70deg);
-    transform: rotateX(70deg);
-    opacity: 0;
   }
 }

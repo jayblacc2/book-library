@@ -62,13 +62,7 @@ Book.prototype.renderBook = function () {
   const randLink = 'https://picsum.photos/300/300';
   const url = `http://covers.openlibrary.org/b/id/${randCover}-M.jpg?source=${randLink}`;
 
-  bookElement.classList.add(
-    'book-card',
-    'card',
-    'rounded',
-    'shadow-lg',
-    'scale-up'
-  );
+  bookElement.classList.add('book-card', 'rounded', 'shadow-lg', 'scale-up');
 
   const cardContent = document.createElement('div');
   cardContent.classList.add('card-content', 'pb-3');
@@ -240,6 +234,8 @@ bookList.addEventListener('click', (e) => {
       isReadMessage = 'Not read';
       readAlert.textContent = isReadMessage;
     }
+
+    localStorage.setItem('myBookLibrary', JSON.stringify(myBookLibrary));
   }
 });
 
